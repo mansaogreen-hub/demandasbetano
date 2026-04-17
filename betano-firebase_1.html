@@ -16,14 +16,14 @@
 
   // ▼▼▼ COLE SUAS CREDENCIAIS FIREBASE AQUI ▼▼▼
   const firebaseConfig = {
-    apiKey:            "AIzaSyCPrf-C-Nk-ZiYtYE_UzyApFFmXFoMsKH4",
-    authDomain:        "demandas-betano.firebaseapp.com",
-    databaseURL:       "https://demandas-betano-default-rtdb.firebaseio.com",
-    projectId:         "demandas-betano",
-    storageBucket:     "demandas-betano.firebasestorage.app",
-    messagingSenderId: "28540035326",
-    appId:             "1:28540035326:web:445a751b47e639af6545af"
-  };
+  apiKey: "AIzaSyCPrf-C-Nk-ZiYtYE_UzyApFFmXFoMsKH4",
+  authDomain: "demandas-betano.firebaseapp.com",
+  databaseURL: "https://demandas-betano-default-rtdb.firebaseio.com",
+  projectId: "demandas-betano",
+  storageBucket: "demandas-betano.firebasestorage.app",
+  messagingSenderId: "28540035326",
+  appId: "1:28540035326:web:445a751b47e639af6545af"
+};
   // ▲▲▲ FIM DAS CREDENCIAIS ▲▲▲
 
   const app = initializeApp(firebaseConfig);
@@ -436,7 +436,7 @@ function showToast(msg,err=false){
 }
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function showScreen(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+n).classList.add('active');}
-function refresh(){if(!CU)return;CU==='admin'?renderAdminTab(CAT):renderInf();}
+function refresh(){if(!CU)return;if(CU==='admin')renderAdminTab(CAT);else if(INF_TAB==='info')renderInfo(document.getElementById('inf-main'));else renderInf();}
 
 document.addEventListener('firebase-ready',async()=>{
   const db=window._db;
@@ -535,6 +535,8 @@ function renderInfo(m){
 }
 
 function renderInf(){
+  INF_TAB='entregas';
+  document.querySelectorAll('#screen-inf .bnav-item').forEach((b,i)=>{b.classList.toggle('active',i===0);});
   const id=CU,inf=INF[id];if(!inf)return;
   document.getElementById('inf-username').textContent=inf.name;
   const counts=getCounts(id),entries=getEntries(id);
