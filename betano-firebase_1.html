@@ -228,6 +228,24 @@ a{text-decoration:none;color:inherit}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.error{background:var(--red);box-shadow:0 4px 20px rgba(255,51,85,.3)}
 .toast.no-bottom{bottom:24px}
+
+/* INFO PAGE */
+.info-card{border-radius:12px;padding:18px;margin-bottom:14px;border:1px solid}
+.info-card.alert{background:rgba(255,51,85,.06);border-color:rgba(255,51,85,.25)}
+.info-card.obrig{background:rgba(0,255,106,.05);border-color:rgba(0,255,106,.2)}
+.info-card.marina{background:rgba(200,240,0,.05);border-color:rgba(200,240,0,.2)}
+.info-card-title{font-family:"Bebas Neue",sans-serif;font-size:20px;letter-spacing:2px;margin-bottom:16px}
+.info-card.alert .info-card-title{color:var(--red)}
+.info-card.obrig .info-card-title{color:var(--gbright)}
+.info-card.marina .info-card-title{color:var(--yellow)}
+.info-item{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.info-item:last-child{margin-bottom:0}
+.info-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.info-text{font-size:14px;color:var(--text);line-height:1.5}
+.info-text b{color:var(--gbright)}
+.info-sub{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text2);margin-top:4px;padding-left:8px;border-left:2px solid var(--gline)}
+.info-highlight{background:rgba(0,255,106,.08);border:1px solid rgba(0,255,106,.2);border-radius:8px;padding:12px;font-size:13px;color:var(--text);line-height:1.6;margin:12px 0}
+.info-alert{background:rgba(255,51,85,.1);border:1px solid rgba(255,51,85,.3);border-radius:8px;padding:10px 12px;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--red);margin-top:12px}
 </style>
 </head>
 <body>
@@ -284,7 +302,15 @@ a{text-decoration:none;color:inherit}
       <button class="logout-btn" onclick="doLogout()">Sair</button>
     </div>
   </div>
-  <div class="main no-bottom" id="inf-main"></div>
+  <div class="main" id="inf-main"></div>
+  <nav class="bottom-nav">
+    <button class="bnav-item active" onclick="infTab(this,'entregas')">
+      <span class="bnav-icon">📋</span><span>Entregas</span>
+    </button>
+    <button class="bnav-item" onclick="infTab(this,'info')">
+      <span class="bnav-icon">🚨</span><span>Info</span>
+    </button>
+  </nav>
 </div>
 
 <!-- ADMIN -->
@@ -308,6 +334,9 @@ a{text-decoration:none;color:inherit}
     </button>
     <button class="bnav-item" onclick="adminTab(this,'relatorios')">
       <span class="bnav-icon">📥</span><span>Relatórios</span>
+    </button>
+    <button class="bnav-item" onclick="adminTab(this,'info')">
+      <span class="bnav-icon">🚨</span><span>Info</span>
     </button>
   </nav>
 </div>
@@ -435,6 +464,76 @@ function doLogin(){
 }
 function doLogout(){CU=null;showScreen('login');document.getElementById('loginUser').value='';}
 
+let INF_TAB='entregas';
+function infTab(btn,tab){
+  INF_TAB=tab;
+  document.querySelectorAll('#screen-inf .bnav-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(tab==='info')renderInfo(document.getElementById('inf-main'));
+  else renderInf();
+}
+
+function renderInfo(m){
+  m.innerHTML=`
+  <div style="padding:4px 0 20px">
+    <div class="page-hdr"><div class="page-title">INFO IMPORTANTES</div></div>
+
+    <div class="info-card alert">
+      <div class="info-card-title">🚨 ATENÇÃO — BETANO</div>
+      <div class="info-item">
+        <div class="info-icon">👉</div>
+        <div>
+          <div class="info-text">Alavancar o uso do <b>"Criar Aposta"</b> dentro da casa</div>
+          <div class="info-sub">• Boost pode chegar até 50%</div>
+          <div class="info-sub">• Feita em apenas 1 jogo</div>
+          <div class="info-sub">• A casa vai analisar como aumentou o uso da ferramenta e quantas pessoas passaram a usar</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">👉</div>
+        <div>
+          <div class="info-text">Divulgar <b>Free Bet</b></div>
+          <div class="info-sub">• Usuários podem receber até R  para utilizar</div>
+        </div>
+      </div>
+      <div class="info-highlight">
+        ⭐️ Linkar o uso da Free Bet com o Criar Aposta é uma forma de utilizar as duas prioridades em uma só comunicação.
+      </div>
+      <div class="info-item">
+        <div class="info-icon">👉</div>
+        <div>
+          <div class="info-text">Reativação da base — incentivar os usuários a voltar à movimentação</div>
+        </div>
+      </div>
+      <div class="info-alert">🚨 Buscar aquisição, mas não é o foco de análise da casa!</div>
+    </div>
+
+    <div class="info-card obrig">
+      <div class="info-card-title">📌 DEMANDA OBRIGATÓRIA</div>
+      <div class="info-item">
+        <div class="info-icon">👉</div>
+        <div class="info-text">Toda semana fazer um <b>bingo</b> para divulgar nos canais</div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">👉</div>
+        <div class="info-text">Toda semana divulgar <b>1 bingo em conjunto</b> — todos os experts juntos</div>
+      </div>
+    </div>
+
+    <div class="info-card marina">
+      <div class="info-card-title">⚠️ ATENÇÃO</div>
+      <div class="info-item">
+        <div class="info-icon">📩</div>
+        <div class="info-text">Enviar os <b>códigos dos bilhetes</b> para <b>Marina</b></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📊</div>
+        <div class="info-text">Quanto mais código, melhor para o acompanhamento da casa!</div>
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderInf(){
   const id=CU,inf=INF[id];if(!inf)return;
   document.getElementById('inf-username').textContent=inf.name;
@@ -512,7 +611,8 @@ function renderAdminTab(tab){
   if(tab==='projetos')renderProjetos(m);
   else if(tab==='entregas')renderEntregas(m);
   else if(tab==='influenciadores')renderInfluenciadores(m);
-  else renderRelatorios(m);
+  else if(tab==='relatorios')renderRelatorios(m);
+  else renderInfo(m);
 }
 
 function renderProjetos(m){
